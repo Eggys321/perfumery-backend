@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const PERFUMERYS = require('./models/perfumeryModel')
+const PERFUMERYS = require('./models/perfumeryModel');
+const perfumeryRouter = require('./routes/productRouter');
+const userRouter = require('./routes/userRouter')
 
 const app = express();
 // middlewares
@@ -29,36 +31,11 @@ app.get('/',(req,res)=>{
     res.send('welcome home')
 })
 
-// create product   C
-app.post('/perfume/create',async(req,res)=>{
-    const {title,description,category,image,reviews,price} = req.body
-    const newPerfumery = new PERFUMERYS({
-        title,
-        description,
-        category,
-        image,
-        reviews,
-        price
-    })
-
-    try{
-
-        if(!title || !description || !category || !image || !reviews || !price){
-            res.status(404).json({errMessage:'all fields must be field'})
-            return
-        }
-        const savedPerfumery = await newPerfumery.save()
-        res.status(200).json(savedPerfumery)
-    }catch(err){
-        res.status(501).json({errMessage:err})
-        console.log(err);
-
-    }
+app.use('/perfume',perfumeryRouter)
+app.use('/auth',userRouter)
 
 
-    
 
-})
 app.listen(PORT,()=>{
     connect()
     console.log(`app running on port ${PORT}`);
