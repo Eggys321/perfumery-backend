@@ -1,12 +1,13 @@
 const mongoose = require('mongoose'); // Erase if already required
+const Schema = mongoose.Schema
 
 // Declare the Schema of the Mongo model
-const userSchema = new mongoose.Schema({
+const clientOrderSchema = new Schema({
     name:{
         type:String,
         required:true,
         unique:true,
-        index:true,
+        // index:true,
     },
     email:{
         type:String,
@@ -21,8 +22,10 @@ const userSchema = new mongoose.Schema({
     password:{
         type:String,
         required:true,
+        // maxlength:5
     },
-});
+},{timestamps:true});
 
 //Export the model
-module.exports = mongoose.model('User', userSchema);
+ const ORDER = mongoose.model('Order', clientOrderSchema);
+ module.exports = ORDER
